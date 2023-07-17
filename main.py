@@ -11,7 +11,8 @@ if __name__ == '__main__':
     game = connect4.connect_4()
     
     player = 'R'
-    while game.valid_moves() != []:
+
+    while not game.is_terminal():
         move_to_make = game.get_random_valid_mode()
         
         game = game.make_move(player, move_to_make)
