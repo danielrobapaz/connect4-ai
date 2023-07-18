@@ -30,24 +30,34 @@ def negamax(connect4, depth, player):
                                     depth-1, new_player))
     return alpha
 
-def negamax_alpha_beta(connect4, depth, alpha, beta, color):
+
+def negamax_alpha_beta(connect4, depth, alpha, beta, player):
+
+    connect4.print_board()
+
+    if player == 'R':
+        color = 1
+        new_player = 'Y'
+    else:
+        color = -1
+        new_player = 'R'
+
     if ((depth == 0) or connect4.is_terminal()):
         return color * connect4.value()
 
-    moves_queue = connect4.valid_moves(color)
-    score = -sys.maxint - 1
-    curr_player = color == 1
+    moves_queue = connect4.valid_moves()
+    score = -math.inf
 
-    if (moves_queue.empty()):
-        score = -negamax_alpha_beta(connect4, depth, -beta, -alpha, -color)
+    if len(moves_queue) == 0:
+        score = -negamax_alpha_beta(connect4, depth, -beta, -alpha, new_player)
 
-    while (len(moves_queue) > 0):
+    while len(moves_queue) > 0:
 
         child = moves_queue[0]
         moves_queue.pop(0)
 
-        value = -negamax_alpha_beta(connect4.make_move(curr_player, child),
-                                    depth-1, -beta, -alpha, -color)
+        value = -negamax_alpha_beta(connect4.make_move(player, child),
+                                    depth-1, -beta, -alpha, new_player)
         score = max(score, value)
         alpha = max(alpha, value)
 
