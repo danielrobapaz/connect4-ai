@@ -67,7 +67,6 @@ class connect_4():
                 return True
             
         # won by up-diagonals
-
         for col in range(4):
             n_rows = self.n_rows-1
             diag_1 = all(self.board[n_rows-i][col+i]==self.board[n_rows-i-1][col+i+1] and not self.board[n_rows-i][col+i] == '.' 
@@ -92,4 +91,63 @@ class connect_4():
         return self.valid_moves() == []
     
     def value(self):
-        return 1
+        # diff of longest segments of the same simbol
+        
+        sum_row_red = self.sum_row_segment('R')
+        sum_row_yellow = self.sum_row_segment('Y')
+
+        sum_col_red = self.sum_column_segment('R')
+        sum_col_yellow = self.sum_column_segment('Y')
+
+        sum_diagonal_red = self.sum_diagonal_segment('R')
+        sum_diagonal_yellow = self.sum_diagonal_segment('Y')
+
+        sum_red = max([sum_row_red, sum_col_red, sum_diagonal_red])
+        sum_yellow = max([sum_row_yellow, sum_col_yellow, sum_diagonal_yellow])
+
+        return sum_red - sum_yellow
+
+    def sum_row_segment(self, token):
+        sum_row = 0
+        for row in range(self.n_rows):
+            seg_1  = sum(1 for col in range(3) if self.board[row][col]==self.board[row][col+1] and self.board[row][col] == token)
+            seg_2  = sum(1 for col in range(1, 4) if self.board[row][col]==self.board[row][col+1] and self.board[row][col] == token)
+            seg_3  = sum(1 for col in range(2, 5) if self.board[row][col]==self.board[row][col+1] and self.board[row][col] == token)
+            seg_4  = sum(1 for col in range(3, 6) if self.board[row][col]==self.board[row][col+1] and self.board[row][col] == token)
+
+            sum_row = sum([seg_1, seg_2, seg_3, seg_4, sum_row])
+
+        return sum_row
+    
+    def sum_column_segment(self, token):
+        sum_col = 0
+        for col in range(self.n_cols):
+            seg_1 = sum(1 for row in range(3) if self.board[row][col]==self.board[row+1][col] and self.board[row][col] == token)
+            seg_2 = sum(1 for row in range(1, 4) if self.board[row][col]==self.board[row+1][col] and self.board[row][col] == token)
+            seg_3 = sum(1 for row in range(2, 5) if self.board[row][col]==self.board[row+1][col] and self.board[row][col] == token)
+
+            sum_col = sum([seg_1, seg_2, seg_3, sum_col])
+
+        return sum_col
+    
+    def sum_diagonal_segment(self, token):
+        sum_diag = 0
+        for col in range(4):
+            n_rows = self.n_rows-1
+            seg_1 = sum(1  for i in range(3)
+                        if self.board[n_rows-i][col+i]==self.board[n_rows-i-1][col+i+1] and self.board[n_rows-i][col+i] == token)
+            seg_2 = sum(1 for i in range(3)
+                        if self.board[n_rows-i-1][col+i]==self.board[n_rows-i-2][col+i+1] and self.board[n_rows-i-1][col+i] == token)
+            seg_3 = sum(1 for i in range(3) 
+                        if self.board[n_rows-i-2][col+i]==self.board[n_rows-i-3][col+i+1] and self.board[n_rows-i-2][col+i] == token)
+
+            sum_diag = sum([seg_1, seg_2, seg_3, sum_diag])
+
+        for col in range(4):
+            seg_1 = sum(1 for i in range(3) if self.board[i][col+i]==self.board[i+1][col+i+1] and self.board[i][col+i] == token)
+            seg_2 = sum(1 for i in range(3) if self.board[i+1][col+i]==self.board[i+2][col+i+1] and self.board[i+1][col+i] == token)
+            seg_3 = sum(1 for i in range(3) if self.board[i+2][col+i]==self.board[i+3][col+i+1] and self.board[i+2][col+i] == token)
+
+            sum_diag = sum([seg_1, seg_2, seg_3, sum_diag])
+            
+        return sum_diag

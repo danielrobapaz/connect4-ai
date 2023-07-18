@@ -17,6 +17,7 @@ if __name__ == '__main__':
         
         game = game.make_move(player, move_to_make)
         game.print_board()
+        print(game.value())
 
         if player == 'R':
             player = 'Y'
