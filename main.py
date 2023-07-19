@@ -22,7 +22,6 @@ if __name__ == '__main__':
     computer_player = 'R'
     human_player = 'Y'
 
-
     while not game.is_terminal():
         print("R\'s turn!\n")
 
@@ -41,7 +40,6 @@ if __name__ == '__main__':
 
         game = game.make_move(computer_player, move_to_make)
         game.print_board()
-
 
         if game.is_terminal():
             print('End! R has won!')
