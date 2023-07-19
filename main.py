@@ -26,16 +26,20 @@ if __name__ == '__main__':
         if chosen_algorithm == '0':
             move_to_make = algorithms.negamax(game, 6, computer_player)
         elif chosen_algorithm == '1':
-            move_to_make = algorithms.negamax_alpha_beta(game, 8, computer_player)
+            move_to_make = algorithms.negamax_alpha_beta(game, 8, -200, 200, computer_player)
 
         game = game.make_move(computer_player, move_to_make)
         game.print_board()
 
         if game.is_terminal():
-            print('End.')
+            print('End! The computer has won!')
             break
 
         move_to_make = int(input(f'Y\'s turn!\nChoose a column to move to = {game.valid_moves()}: '))
         game = game.make_move(human_player, move_to_make)
         print()
         game.print_board()
+
+        if game.is_terminal():
+            print('End! You have won!')
+            break
