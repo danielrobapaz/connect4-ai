@@ -40,4 +40,5 @@ if __name__ == '__main__':
 
         # Call negamax with alpha-beta pruning
         #move_to_make = algorithms.negamax_alpha_beta(game, 6, -200, 200, player)
-      
+
+        break      
