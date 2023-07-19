@@ -26,6 +26,9 @@ if __name__ == '__main__':
     while not game.is_terminal():
         print("R\'s turn!\n")
 
+        if chosen_modality == '1':
+            print("Wait while the computer's thinking!...\n")
+
         if chosen_algorithm == '0':
             move_to_make = algorithms.negamax(game, chosen_depth, computer_player)
         elif chosen_algorithm == '1':
@@ -49,9 +52,10 @@ if __name__ == '__main__':
                 move_to_make = algorithms.negamax_alpha_beta(game, chosen_depth, -200, 200, computer_player)
 
         elif chosen_modality == '1':
-            move_to_make = int(input(f'Y\'s turn!\nChoose a column to move to = {game.valid_moves()}: '))    
+            move_to_make = int(input(f'Choose a column to move to = {game.valid_moves()}: '))    
 
         game = game.make_move(human_player, move_to_make)
+        print()
         game.print_board()
 
         if game.is_terminal():
