@@ -7,6 +7,7 @@ class connect_4():
         self.n_cols = 7
         row = ['.' for i in range(self.n_cols)]
         self.board = [row.copy() for i in range(self.n_rows)]
+        self.best_move = -1
 
     def print_board(self):
         for i in range(self.n_rows,):

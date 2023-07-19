@@ -1,5 +1,4 @@
 import math
-import time
 
 def negamax(game, depth, player):
     if player == 'R':
@@ -18,9 +17,12 @@ def negamax(game, depth, player):
     for move in possibles_moves:
         child = game.make_move(player, move)
 
+        old_alpha = alpha
         alpha = max(alpha, -negamax(child, depth-1, new_player))
 
-    return alpha
+        if alpha != old_alpha:
+            game.best_move = move        
+    return game.best_move
 
 
 def negamax_alpha_beta(connect4, depth, alpha, beta, player):

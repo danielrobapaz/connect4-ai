@@ -31,14 +31,19 @@ if __name__ == '__main__':
 
     #print("Game played with algorithms: ")
     game = connect4.connect_4()
-    player = 'R'
-    
+    computer_player = 'R'
+    human_player = 'Y'
+
     while not game.is_terminal():
         # Call negamax algorithm
-        move_to_make = algorithms.negamax(game, 5, player)
-        #print(game.value())
+        move_to_make = algorithms.negamax(game, 6, computer_player)
+        game = game.make_move(computer_player, move_to_make)
+        game.print_board()
 
-        # Call negamax with alpha-beta pruning
-        #move_to_make = algorithms.negamax_alpha_beta(game, 6, -200, 200, player)
+        if game.is_terminal():
+            print('End.')
+            break
 
-        break      
+        move_to_make = int(input(f'Your move (\'Y\') valid moves = {game.valid_moves()}: '))
+        game = game.make_move(human_player, move_to_make)
+        game.print_board()
