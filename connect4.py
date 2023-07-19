@@ -1,8 +1,19 @@
+"""
+    Definition of the state space of the game 'Connect 4'
+
+    The game of a 6x7 board and two color pieces.
+    The goal is to connect 4 pieces of the same color by dropping them into de board.
+
+    Is a game of two players and is a zero-sum-game. 
+"""
+
 import random
 
 class connect_4():
     def __init__(self):
-        # tablero 6 x 7
+        """
+            Create the connect_4 object with an empy board 6x7
+        """
         self.n_rows = 6
         self.n_cols = 7
         row = ['.' for i in range(self.n_cols)]
@@ -10,13 +21,23 @@ class connect_4():
         self.best_move = -1
 
     def print_board(self):
+        """
+            print the board in list-like format
+        """
         for i in range(self.n_rows,):
             print(self.board[i])
         print()
 
     def make_move(self, player, move):
         """
-            add a token in col 'move' of the color 'player'
+            apply a move of a player
+
+            param:
+            @player:    char    -> player to make the move ('R', 'Y')
+            @move:      int     -> index of the column to make the move
+
+            returns:
+                a connect_4 object which board is the board of self after the move
         """
         assert self.is_valid_move(move), 'Invalid move'
         assert player in ['R', 'Y'], 'Invalid player' 
@@ -35,18 +56,37 @@ class connect_4():
         return game_moved
     
     def valid_moves(self):
+        """
+            returns all the posible movements that can be made in the current board.
+        """
         return [i for i in range(self.n_cols) if self.is_valid_move(i)]
 
-    def get_random_valid_mode(self):
+    def get_random_valid_move(self):
+        """
+            returns a random valid move that can be made in the current board.
+        """
         possible_moves = self.valid_moves()
         return possible_moves[random.randint(0, len(possible_moves)-1)]
     
     def is_valid_move(self, move):
-        # verify if the movement is valid
+        """
+            given a move, it determines if is valid or isn't
+
+            param:
+            @move: int -> a index representing a column to make a move
+
+            returns:
+                true if move is valid, false otherwise
+        """
         return 0 <= move and move < self.n_cols and self.board[0][move] == '.'
     
     def is_terminal(self):
-        # some player won the game
+        """
+            determine is the game is over.
+
+            the game can be over if any player won the game or there are no possibles moves that
+            can be made
+        """
 
         # won by rows
         for row in range(self.n_rows):
@@ -92,7 +132,15 @@ class connect_4():
         return self.valid_moves() == []
     
     def value(self):
-        # diff of longest segments of the same simbol
+        """
+            determine the value of the current board.
+
+            the value is as follows
+
+                sum of length of segments of red pieces - sum of length of sements of yellow pieces
+
+            the segments must be at least of length 2
+        """
         
         sum_row_red = self.sum_row_segment('R')
         sum_row_yellow = self.sum_row_segment('Y')

@@ -1,3 +1,7 @@
+"""
+    Implementation of the negamax algorithms. There are two versions implemented.
+    The classical negamax and the alpha beta pruning version
+"""
 import math
 
 def negamax(game, depth, player):
