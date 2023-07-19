@@ -35,9 +35,9 @@ if __name__ == '__main__':
     
     while not game.is_terminal():
         # Call negamax algorithm
-        #move_to_make = algorithms.negamax(game, 5, player)
+        move_to_make = algorithms.negamax(game, 5, player)
         #print(game.value())
 
         # Call negamax with alpha-beta pruning
-        move_to_make = algorithms.negamax_alpha_beta(game, 5, -200, 200, player)
+        #move_to_make = algorithms.negamax_alpha_beta(game, 6, -200, 200, player)
       

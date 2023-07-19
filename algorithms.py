@@ -1,10 +1,10 @@
 import connect4
 import math
-import sys
+import time
 
 def negamax(connect4, depth, player):
 
-    connect4.print_board()
+    print(player)
 
     if player == 'R':
         color = 1
@@ -22,18 +22,27 @@ def negamax(connect4, depth, player):
     if len(moves_queue) == 0:
         alpha = -negamax(connect4, depth, new_player)
 
+        connect4.print_board()
+        time.sleep(0.5)
+
     while len(moves_queue) > 0:
         child = moves_queue[0]
+
         moves_queue.pop(0)
+
+        connect4.print_board()
+        time.sleep(0.5)
 
         alpha = max(alpha, -negamax(connect4.make_move(player, child),
                                     depth-1, new_player))
+
     return alpha
 
 
 def negamax_alpha_beta(connect4, depth, alpha, beta, player):
 
     connect4.print_board()
+    time.sleep(0.5)
 
     if player == 'R':
         color = 1

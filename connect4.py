@@ -42,8 +42,7 @@ class connect_4():
     
     def is_valid_move(self, move):
         # verify if the movement is valid
-        #return 0 <= move and move <= self.n_cols and self.board[0][move] == '.'
-        return 0 <= self.n_cols and self.board[0][move] == '.'
+        return 0 <= move and move <= self.n_cols and self.board[0][move] == '.'
     
     def is_terminal(self):
         # some player won the game
