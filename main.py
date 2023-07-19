@@ -15,13 +15,12 @@ if __name__ == '__main__':
     print("\n(0) Negamax; (1) Negamax with alpha-beta pruning: ")
     chosen_algorithm = input("Insert a number to pick one of the algorithms: ")
 
-    chosen_depth = int(input("\nInsert a number to pick maximum depth the algorithm will go to: "))
+    chosen_depth = int(input("\nInsert a number to pick the maximum depth the algorithm will go to: "))
 
     game = connect4.connect_4()
     computer_player = 'R'
     human_player = 'Y'
 
-    start = time.time()
 
     while not game.is_terminal():
         print("R\'s turn!\n")
@@ -29,15 +28,18 @@ if __name__ == '__main__':
         if chosen_modality == '1':
             print("Wait while the computer's thinking!...\n")
 
+        R_time_start = time.time()
         if chosen_algorithm == '0':
             move_to_make = algorithms.negamax(game, chosen_depth, computer_player)
         elif chosen_algorithm == '1':
             move_to_make = algorithms.negamax_alpha_beta(game, chosen_depth, -200, 200, computer_player)
+        R_time_end = time.time()   
+
+        print(f'R\'s Thinking time: {round(R_time_end - R_time_start, 2)} seconds\n') 
 
         game = game.make_move(computer_player, move_to_make)
-
-        end_move = time.time()
         game.print_board()
+
 
         if game.is_terminal():
             print('End! R has won!')
@@ -45,11 +47,15 @@ if __name__ == '__main__':
 
         print("Y\'s turn!\n")
 
-        if chosen_modality == '0': 
+        if chosen_modality == '0':
+            Y_time_start = time.time()
             if chosen_algorithm == '0':
                 move_to_make = algorithms.negamax(game, chosen_depth, computer_player)
             elif chosen_algorithm == '1':
                 move_to_make = algorithms.negamax_alpha_beta(game, chosen_depth, -200, 200, computer_player)
+            Y_time_end = time.time()  
+
+            print(f'Y\'s Thinking time: {round(Y_time_end - Y_time_start, 2)} seconds')
 
         elif chosen_modality == '1':
             move_to_make = int(input(f'Choose a column to move to = {game.valid_moves()}: '))    
@@ -61,6 +67,3 @@ if __name__ == '__main__':
         if game.is_terminal():
             print('End! Y has won!')
             break
-
-    end_game = time.time()    
-    print(f'Total time: {round(end_game - start, 2)} seconds')
