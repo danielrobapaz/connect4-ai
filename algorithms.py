@@ -24,7 +24,7 @@ def negamax(game, depth, player):
             game.best_move = move        
     return game.best_move
 
-def negamax_alpha_beta(connect4, depth, alpha, beta, player):
+def negamax_alpha_beta(game, depth, alpha, beta, player):
     if player == 'R':
         color = 1
         new_player = 'Y'
@@ -32,22 +32,23 @@ def negamax_alpha_beta(connect4, depth, alpha, beta, player):
         color = -1
         new_player = 'R'
 
-    if ((depth == 0) or connect4.is_terminal()):
-        return color * connect4.value()
+    if ((depth == 0) or game.is_terminal()):
+        return color * game.value()
 
-    moves_queue = connect4.valid_moves()
+    possible_moves = game.valid_moves()
     score = -math.inf
 
-    while len(moves_queue) > 0:
+    for move in possible_moves:
+        child = game.make_move(player, move)
+        value = -negamax_alpha_beta(child, depth-1, -beta, -alpha, new_player)
 
-        child = moves_queue[0]
-        moves_queue.pop(0)
-
-        value = -negamax_alpha_beta(connect4.make_move(player, child),
-                                    depth-1, -beta, -alpha, new_player)
+        old_score = score
         score = max(score, value)
         alpha = max(alpha, value)
 
+        if score != old_score:
+            game.best_move = move
+        
         if (alpha >= beta): break
 
-    return score
+    return game.best_move
