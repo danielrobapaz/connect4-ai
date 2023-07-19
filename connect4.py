@@ -26,6 +26,7 @@ class connect_4():
         """
         for i in range(self.n_rows,):
             print(self.board[i])
+        print('  0    1    2    3    4    5    6')
         print()
 
     def make_move(self, player, move):
