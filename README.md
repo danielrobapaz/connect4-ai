@@ -16,3 +16,5 @@ python3 main.py
 python main.py
 ```
 según corresponda.
+
+Utilizar versión de python 3.11 en adelante.
